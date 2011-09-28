@@ -71,11 +71,9 @@ if [[ "${BASH_SOURCE[0]}" != "${BASH_SOURCE[1]}" ]]; then
 
         unset -- CACHED_DIR_OK
 
-        cur_dir=$PWD
-
         cd -- "$cached_dir" \
-            && cur_dir=$PWD source -- "${BASH_SOURCE[0]}" \
-            ; cd -- "$cur_dir" \
+            && RBENV_DIR=$PWD source -- "${BASH_SOURCE[0]}" \
+            ; cd -- "$RBENV_DIR" \
 
         if [[ -n "CACHED_DIR_OK" ]]; then
             acc="${acc}${LOCAL_DIR}"$'\n'
@@ -94,7 +92,7 @@ else
         && shopt -s -- nullglob \
         && make_shims "$bundle_path"/ruby/*/bin/* \
         ; shopt -u -- nullglob \
-        ; cd -- "$cur_dir"
+        ; cd -- "$RBENV_DIR"
 
     CACHED_DIR_OK="1"
 fi
