@@ -32,7 +32,7 @@
 function get_bundle_root {
   local -- bundle_config="$1"
 
-  [[ ! -d $bundle_config ]] && return
+  [[ ! -d "$bundle_config" ]] && return
 
   while [ -n "$bundle_config" ]; do
     if [ -e "${bundle_config}/.bundle/config" ]; then
@@ -50,6 +50,8 @@ function get_bundle_path {
     [[ ! -d "$bundle_path" ]] && return
 
     bundle_path=$(cat -- "$bundle_path/.bundle/config" | sed -En -- "s/^BUNDLE_PATH: (.*)\$/\\1/gp")
+
+    [[ -z "$bundle_path" ]] && return
 
     if [[ -n "${bundle_path%%/*}" ]]; then
         bundle_path="${1}/${bundle_path}"

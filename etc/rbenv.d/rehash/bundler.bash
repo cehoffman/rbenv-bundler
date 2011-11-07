@@ -40,7 +40,7 @@ if [[ ! -f "$cached_dirs_file" ]]; then
     touch -- "$cached_dirs_file"
 fi
 
-cached_dirs="$(cat -- "$cached_dirs_file")"$'\n'${PWD}$'\n'
+cached_dirs="$(cat -- "$cached_dirs_file")"$'\n'"$PWD"$'\n'
 cached_dirs=$(echo -n "$cached_dirs" | uniq | sort -u)
 
 ifs_save=$IFS
