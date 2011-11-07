@@ -28,16 +28,28 @@
 
 # Contains includes common to rbenv-bundler plugin scripts.
 
+# Get the base directory of the bundle
+function get_bundle_root {
+  local -- bundle_config="$1"
+
+  [[ ! -d $bundle_config ]] && return
+
+  while [ -n "$bundle_config" ]; do
+    if [ -e "${bundle_config}/.bundle/config" ]; then
+      echo "$bundle_config"
+      break
+    fi
+    bundle_config="${bundle_config%/*}"
+  done
+}
+
 # Gets the bundle installation path by inspecting the ".bundle/config" file.
 function get_bundle_path {
+    local -- bundle_path=$(get_bundle_root "$1")
 
-    local -- bundle_config="${1}/.bundle/config"
+    [[ ! -d "$bundle_path" ]] && return
 
-    if [[ ! -f "$bundle_config" ]]; then
-        return 1
-    fi
-
-    local -- bundle_path=$(cat -- "$bundle_config" | sed -En -- "s/^BUNDLE_PATH: (.*)\$/\\1/gp")
+    bundle_path=$(cat -- "$bundle_path/.bundle/config" | sed -En -- "s/^BUNDLE_PATH: (.*)\$/\\1/gp")
 
     if [[ -n "${bundle_path%%/*}" ]]; then
         bundle_path="${1}/${bundle_path}"
