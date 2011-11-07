@@ -34,9 +34,9 @@ if [[ -n "$PLUGIN_DISABLED" ]] || { ! bundle_path=$(get_bundle_path "$PWD"); } t
     return
 fi
 
-shopt -s -- nullglob \
-    && bundled_executables=("$bundle_path"/ruby/*/bin/"$RBENV_COMMAND") \
-    ; shopt -u -- nullglob
+shopt -s nullglob
+bundled_executables=("$bundle_path"/ruby/*/bin/"$RBENV_COMMAND")
+shopt -u -- nullglob
 
 if (( ${#bundled_executables[@]} == 0 )); then
     return
