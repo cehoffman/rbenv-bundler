@@ -48,8 +48,8 @@ if [[ "${BASH_SOURCE[0]}" != "${BASH_SOURCE[1]}" ]]; then
 
     cached_dirs="$(cat -- "$cached_dirs_file")"$'\n'
 
-    if { get_bundle_path "$LOCAL_DIR" > /dev/null; } then
-        cached_dirs="${cached_dirs}${LOCAL_DIR}"$'\n'
+    if { get_bundle_path "$PWD" > /dev/null; } then
+        cached_dirs="${cached_dirs}${PWD}"$'\n'
     fi
 
     cached_dirs=$(echo -n "$cached_dirs" | sort -u)
@@ -84,7 +84,7 @@ if [[ "${BASH_SOURCE[0]}" != "${BASH_SOURCE[1]}" ]]; then
 
 else
 
-    if { ! bundle_path=$(get_bundle_path "$LOCAL_DIR"); } then
+    if { ! bundle_path=$(get_bundle_path "$PWD"); } then
         return
     fi
 
